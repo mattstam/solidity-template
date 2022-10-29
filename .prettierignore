@@ -1,0 +1,17 @@
+**/.git/
+**/.yarn/
+**/artifacts
+**/build
+**/cache
+**/corpus
+**/coverage
+**/node_modules
+**/media
+**/out
+**/types
+
+*.md
+*.env
+*.log
+*.sqrl
+coverage.json

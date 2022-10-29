@@ -1,0 +1,9 @@
+{
+    "detectors_to_run": "reentrancy-eth,reentrancy-no-eth,reentrancy-unlimited-gas",
+    "exclude_informational": false,
+    "exclude_low": false,
+    "exclude_medium": false,
+    "exclude_high": false,
+    "disable_color": false,
+    "legacy_ast": false
+}

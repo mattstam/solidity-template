@@ -1,0 +1,8 @@
+{
+    "deployments": [
+        {
+            "network": "goerli",
+            "contracts": []
+        }
+    ]
+}
