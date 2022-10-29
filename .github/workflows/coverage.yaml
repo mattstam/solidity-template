@@ -1,0 +1,25 @@
+---
+name: Coverage
+"on":
+    push:
+        branches:
+            - master
+    pull_request:
+        branches:
+            - master
+jobs:
+    coverage:
+        runs-on: ubuntu-latest
+        env:
+            MNEMONIC: ${{secrets.MNEMONIC}}
+        steps:
+            - name: Check out the repo
+              uses: actions/checkout@v3
+              with:
+                  submodules: recursive
+            - name: Install Node.js
+              uses: actions/setup-node@v3
+            - name: Install the Node.js dependencies
+              run: npm i
+            - name: Run Integration Test Coverage
+              run: npm run coverage

@@ -1,0 +1,19 @@
+{
+    "arrowParens": "avoid",
+    "bracketSpacing": false,
+    "endOfLine": "lf",
+    "printWidth": 100,
+    "singleQuote": false,
+    "tabWidth": 4,
+    "trailingComma": "all",
+    "explicitTypes": "always",
+    "semi": true,
+    "overrides": [
+        {
+            "files": "*.ts",
+            "options": {
+                "bracketSpacing": true
+            }
+        }
+    ]
+}
