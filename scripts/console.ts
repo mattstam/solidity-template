@@ -251,10 +251,10 @@ function etherscanTx(net: string, txHash: string): string {
         return `https://testnet.arbiscan.io/tx/` + txHash;
     }
     if (net == `avalanche`) {
-        return `https://snowtrace.io/address/` + addr;
+        return `https://snowtrace.io/tx/` + txHash;
     }
     if (net == `avalanche-fuji`) {
-        return `https://testnet.snowtrace.io/address/` + addr;
+        return `https://testnet.snowtrace.io/tx/` + txHash;
     }
     return `https://` + net + `.etherscan.io/tx/` + txHash;
 }
