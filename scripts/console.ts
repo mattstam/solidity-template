@@ -112,7 +112,7 @@ async function trackDeployment<T extends Contract>(
     fn: () => Promise<T>,
     name: string = `Contract`,
 ): Promise<T> {
-    for (;;) {
+    for (; ;) {
         try {
             console.log(`Deploying ${name} ...`);
 
@@ -231,6 +231,12 @@ function etherscanAddress(net: string, addr: string): string {
     if (net == `arbitrum-rinkeby`) {
         return `https://testnet.arbiscan.io/address/` + addr;
     }
+    if (net == `avalanche`) {
+        return `https://snowtrace.io/address/` + addr;
+    }
+    if (net == `avalanche-fuji`) {
+        return `https://testnet.snowtrace.io/address/` + addr;
+    }
     return `https://` + net + `.etherscan.io/address/` + addr;
 }
 
@@ -244,6 +250,12 @@ function etherscanTx(net: string, txHash: string): string {
     if (net == `arbitrum-rinkeby`) {
         return `https://testnet.arbiscan.io/tx/` + txHash;
     }
+    if (net == `avalanche`) {
+        return `https://snowtrace.io/address/` + addr;
+    }
+    if (net == `avalanche-fuji`) {
+        return `https://testnet.snowtrace.io/address/` + addr;
+    }
     return `https://` + net + `.etherscan.io/tx/` + txHash;
 }
 
@@ -254,7 +266,7 @@ function askYesNo(query: string): boolean {
 }
 
 function askForNumber(numberUsage: string, defaultInput?: string): number {
-    for (;;) {
+    for (; ;) {
         const numStr = askFor(numberUsage, defaultInput);
         const num = parseInt(numStr);
         if (Number.isInteger(num)) {
@@ -265,7 +277,7 @@ function askForNumber(numberUsage: string, defaultInput?: string): number {
 }
 
 function askForAddress(addressUsage: string, defaultInput?: string): string {
-    for (;;) {
+    for (; ;) {
         const address = askFor(`the address ` + addressUsage, defaultInput);
         if (utils.isAddress(address)) {
             return address;
