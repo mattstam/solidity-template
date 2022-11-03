@@ -2,6 +2,7 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { BigNumber, Contract, ContractTransaction, utils } from "ethers";
 import * as fs from "fs";
 import { ethers, network } from "hardhat";
+import { Network } from "@ethersproject/networks";
 import * as path from "path";
 import { keyInSelect, keyInYNStrict, question } from "readline-sync";
 import { Counter } from "../types";
@@ -108,6 +109,17 @@ type Deployments = {
     deployments: Array<Deployment>;
 };
 
+const fillInMissingName = (network: Network): Network => {
+    const { chainId } = network;
+    if (chainId === 43113) {
+        network.name = `avalanche-fuji`;
+    }
+    if (chainId === 43114) {
+        network.name = `avalanche`;
+    }
+    return network;
+};
+
 async function trackDeployment<T extends Contract>(
     fn: () => Promise<T>,
     name: string = `Contract`,
@@ -117,7 +129,8 @@ async function trackDeployment<T extends Contract>(
             console.log(`Deploying ${name} ...`);
 
             const contract = await fn();
-            const net = await contract.provider.getNetwork();
+            let net = await contract.provider.getNetwork();
+            net = fillInMissingName(net);
 
             console.log(`${name} address: ${etherscanAddress(net.name, contract.address)}`);
             console.log(
