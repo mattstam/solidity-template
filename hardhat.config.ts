@@ -40,6 +40,7 @@ const chainIds = {
     arbitrum: 42161,
     "arbitrum-goerli": 421613,
     avalanche: 43114,
+    "avalanche-fuji": 43113,
     "polygon-mainnet": 137,
     "polygon-mumbai": 80001,
     hardhat: 31337,
@@ -56,6 +57,9 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
             break;
         case `avalanche`:
             jsonRpcUrl = `https://api.avax.network/ext/bc/C/rpc`;
+            break;
+        case `avalanche-fuji`:
+            jsonRpcUrl = `https://api.avax-test.network/ext/bc/C/rpc`;
             break;
         case `bsc`:
             jsonRpcUrl = `https://bsc-dataseed1.binance.org`;
@@ -135,6 +139,7 @@ const config: HardhatUserConfig = {
         arbitrum: getChainConfig("arbitrum"),
         "arbitrum-goerli": getChainConfig("arbitrum-goerli"),
         avalanche: getChainConfig(`avalanche`),
+        "avalanche-fuji": getChainConfig(`avalanche-fuji`),
         bsc: getChainConfig(`bsc`),
         optimism: getChainConfig(`optimism`),
         "polygon-mainnet": getChainConfig(`polygon-mainnet`),
@@ -154,6 +159,7 @@ const config: HardhatUserConfig = {
             arbitrum: process.env.ARBISCAN_API_KEY || ``,
             "arbitrum-goerli": process.env.ARBISCAN_API_KEY || ``,
             avalanche: process.env.SNOWTRACE_API_KEY || ``,
+            "avalanche-fuji": process.env.SNOWTRACE_API_KEY || ``,
             optimism: process.env.OPTIMISM_API_KEY || ``,
             bsc: process.env.BSCSCAN_API_KEY || ``,
             "polygon-mainnet": process.env.POLYGONSCAN_API_KEY || ``,

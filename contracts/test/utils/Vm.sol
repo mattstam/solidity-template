@@ -20,20 +20,10 @@ interface Vm {
     function load(address, bytes32) external returns (bytes32);
 
     // Stores a value to an address' storage slot, (who, slot, value)
-    function store(
-        address,
-        bytes32,
-        bytes32
-    ) external;
+    function store(address, bytes32, bytes32) external;
 
     // Signs data, (privateKey, digest) => (v, r, s)
-    function sign(uint256, bytes32)
-        external
-        returns (
-            uint8,
-            bytes32,
-            bytes32
-        );
+    function sign(uint256, bytes32) external returns (uint8, bytes32, bytes32);
 
     // Gets address for a given private key, (privateKey) => (address)
     function addr(uint256) external returns (address);
@@ -126,40 +116,20 @@ interface Vm {
     // - topic 1: first indexed field
     // - topic 2: second indexed field
     // - topic 3: third indexed field
-    function expectEmit(
-        bool,
-        bool,
-        bool,
-        bool
-    ) external;
+    function expectEmit(bool, bool, bool, bool) external;
 
     // With address: Asserts the topics match and that the emitting address matches.
-    function expectEmit(
-        bool,
-        bool,
-        bool,
-        bool,
-        address
-    ) external;
+    function expectEmit(bool, bool, bool, bool, address) external;
 
     // Mocks a call to an address, returning specified data.
     // Calldata can either be strict or a partial match, e.g. if you only
     // pass a Solidity selector to the expected calldata, then the entire Solidity
     // function will be mocked.
-    function mockCall(
-        address,
-        bytes calldata,
-        bytes calldata
-    ) external;
+    function mockCall(address, bytes calldata, bytes calldata) external;
 
     // Mocks a call to an address with a specific msg.value, returning specified data.
     // Calldata match takes precedence over msg.value in case of ambiguity.
-    function mockCall(
-        address,
-        uint256,
-        bytes calldata,
-        bytes calldata
-    ) external;
+    function mockCall(address, uint256, bytes calldata, bytes calldata) external;
 
     // Clears all mocked calls
     function clearMockedCalls() external;
@@ -169,11 +139,7 @@ interface Vm {
     function expectCall(address, bytes calldata) external;
 
     // Expect a call to an address with the specified msg.value and calldata
-    function expectCall(
-        address,
-        uint256,
-        bytes calldata
-    ) external;
+    function expectCall(address, uint256, bytes calldata) external;
 
     // Gets the code from an artifact file. Takes in the relative path to the json file
     function getCode(string calldata) external returns (bytes memory);
