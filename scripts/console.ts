@@ -124,7 +124,7 @@ async function trackDeployment<T extends Contract>(
     fn: () => Promise<T>,
     name: string = `Contract`,
 ): Promise<T> {
-    for (; ;) {
+    for (;;) {
         try {
             console.log(`Deploying ${name} ...`);
 
@@ -279,7 +279,7 @@ function askYesNo(query: string): boolean {
 }
 
 function askForNumber(numberUsage: string, defaultInput?: string): number {
-    for (; ;) {
+    for (;;) {
         const numStr = askFor(numberUsage, defaultInput);
         const num = parseInt(numStr);
         if (Number.isInteger(num)) {
@@ -290,7 +290,7 @@ function askForNumber(numberUsage: string, defaultInput?: string): number {
 }
 
 function askForAddress(addressUsage: string, defaultInput?: string): string {
-    for (; ;) {
+    for (;;) {
         const address = askFor(`the address ` + addressUsage, defaultInput);
         if (utils.isAddress(address)) {
             return address;
