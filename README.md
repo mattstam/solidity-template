@@ -178,23 +178,30 @@ This will automatically update [deployments.json](./deployments.json), which get
 
 #### [Foundry](#foundry)
 
-Advanced ways to use `foundryup`, and other documentation, can be found in the [foundryup package](./foundryup/README.md).
-Foundry is a blazing fast, portable and modular toolkit for Ethereum application development. It consists of:
+[Foundry](https://book.getfoundry.sh/) is a blazing fast, portable, and modular toolkit for Ethereum application development. It consists of:
 
-- **[Forge](https://book.getfoundry.sh/reference/forge/forge)**: Library for Unit / Fuzz testing written in Solidity (see [contracts/test/](./contracts/test/)).
-- **[Cast](https://book.getfoundry.sh/reference/cast/cast)**: Library for interacting with a live Ethereum JSON-RPC compatible node, or for parsing data. A swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
+- [Forge](https://book.getfoundry.sh/reference/forge/forge): Framework for [Unit / Fuzz testing](./contracts/test/) written in Solidity.
+- [Cast](https://book.getfoundry.sh/reference/cast/cast): EVM interactions for contracts, transaction handling, and reading on-chain data.
+- [Anvil](https://book.getfoundry.sh/reference/anvil/): A local testnet node with network forking capabilities.
 
-Need help getting started with Foundry? Read the [📖 Foundry Book](https://onbjerg.github.io/foundry-book/).
+Configuration details can be found in [foundry.toml](./foundry.toml).
 
 #### [Hardhat](#hardhat)
 
-Hardhat is an Ethereum development environment for professionals. We use the [Hardhat Network](https://hardhat.org/hardhat-network/) for Integration testing which written in Typescript. It uses Ethers.js and Mocha/Chai. See [integration/](./integration/) for how it's used in Git Consensus.
+[Hardhat](https://hardhat.org/getting-started/) is a complete Ethereum development environment. The [integration tests]((./integration/)) run on the [Hardhat network](https://hardhat.org/hardhat-network/), with each test written in [JavaScript (TypeScript)](https://www.typescriptlang.org/), utilizing the [Ethers.js](https://docs.ethers.io/v5/) library, and the [Mocha](https://mochajs.org/) testing framework.
 
-On [Hardhat's website](https://hardhat.org) you will find:
+Hardhat can also be extended (see the full [plugin list](https://hardhat.org/plugins/)). This project makes use of:
 
-- [Guides to get started](https://hardhat.org/getting-started/)
-- [Hardhat Network](https://hardhat.org/hardhat-network/)
-- [Plugin list](https://hardhat.org/plugins/)
+- [Hardhat Waffle](https://github.com/NomicFoundation/hardhat/blob/5659ee220069329df4354ba7cda446daaa24ab35/packages/hardhat-waffle/README.md) - test assertions with [Chai](https://ethereum-waffle.readthedocs.io/en/latest/matchers.html) matchers.
+- [Hardhat Ethers](https://github.com/NomicFoundation/hardhat/blob/5659ee220069329df4354ba7cda446daaa24ab35/packages/hardhat-ethers/README.md) - integration with [Ethers.js](https://docs.ethers.io/v5/).
+- [Hardhat Solhint](https://github.com/NomicFoundation/hardhat/blob/5659ee220069329df4354ba7cda446daaa24ab35/packages/hardhat-solhint/README.md) - integration with the Solidity language [Solhint linter](https://github.com/protofire/solhint).
+- [Hardhat Gas Reporter](https://github.com/cgewecke/hardhat-gas-reporter) - gas cost summary of contract calls.
+- [Hardhat Tracer](https://github.com/zemse/hardhat-tracer) - contract name tag for logs and advanced debugging.
+- [Hardhat Contract Sizer](https://github.com/ItsNickBarry/hardhat-contract-sizer) - show output size of contracts.
+- [Hardhat Etherscan](https://github.com/NomicFoundation/hardhat/blob/5659ee220069329df4354ba7cda446daaa24ab35/packages/hardhat-etherscan/README.md) - verify contract source code on [Etherscan](https://etherscan.io/).
+- [Hardhat Dodoc](https://github.com/primitivefinance/primitive-dodoc) - documentation generation from [NatSpec](https://docs.soliditylang.org/en/latest/natspec-format.html).
+
+Configuration details can be found in [hardhat.config.ts](./hardhat.config.ts), which inherits from [foundry.toml](./foundry.toml).
 
 &nbsp;
 
@@ -204,23 +211,7 @@ On [Hardhat's website](https://hardhat.org) you will find:
 - [Solidity Language & Themes (only)](https://marketplace.visualstudio.com/items?itemName=tintinweb.vscode-solidity-language)
 - [Solidity (by Hardhat authors)](https://marketplace.visualstudio.com/items?itemName=NomicFoundation.hardhat-solidity)
 - [Solidity (by Juan Blanco)](https://marketplace.visualstudio.com/items?itemName=JuanBlanco.solidity)
-- [ETHover](https://marketplace.visualstudio.com/items?itemName=tintinweb.vscode-ethover)
 - [Prettier](https://marketplace.visualstudio.com/items?itemName=SimonSiefke.prettier-vscode)
-- [Template String Converter](https://marketplace.visualstudio.com/items?itemName=meganrogge.template-string-converter)
-- [Mocha Test Explorer](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-mocha-test-adapter)
-
-&nbsp;
-
-## [Style Guide](#style-guide)
-
-- Add Solidity comments in the [natspec](https://docs.soliditylang.org/en/v0.8.17/natspec-format.html) format.
-- Always `npm run pretty` your before committing.
-- Lowercase commit message (for consistency).
-- Integration testing with Mocha/Chai asserts: `expect(actual).to.equal(expected)`
-- Use [Template Literals where possible](https://ponyfoo.com/articles/template-literals-strictly-better-strings).
-- Use same consistent pattern for import ordering.
-
-In general, please do your best to always keep this repository beautiful! ❤️
 
 &nbsp;
 

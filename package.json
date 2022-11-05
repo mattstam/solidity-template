@@ -1,7 +1,7 @@
 {
     "name": "@mattstam/solidity-template",
     "version": "0.0.0",
-    "description": "A Solidity template with Hardhat and Foundry.",
+    "description": "A modern Solidity template utilizing Foundry and Hardhat",
     "type": "commonjs",
     "main": "build/scripts/index.js",
     "types": "build/scripts/index.d.ts",
