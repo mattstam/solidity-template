@@ -50,5 +50,12 @@ module.exports = {
                 varsIgnorePattern: `_`,
             },
         ],
+        "@typescript-eslint/unbound-method": `off`,
+        "@typescript-eslint/no-misused-promises": [
+            `error`,
+            {
+                checksVoidReturn: false,
+            },
+        ],
     },
 };
