@@ -172,6 +172,12 @@ npm run deploy -- --network goerli
 
 This will automatically update [deployments.json](./deployments.json), which gets exported with your [NPM package](./package.json). It will also become the default address to use when interacting with your contracts with the [CLI](./scripts/console).
 
+#### [Generate documentation](#generate-documentation)
+
+```sh
+npm run doc
+```
+
 &nbsp;
 
 ## [Foundry & Hardhat Info](#foundry--hardhat-infofoundary--hardhat-info)

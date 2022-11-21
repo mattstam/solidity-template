@@ -112,7 +112,7 @@ export function explorerUrl(chainId: number | undefined, type: UrlType, param: s
         case chainIds[`polygon-mumbai`]:
             return `https://mumbai.polygonscan.com/${type}/${param}`;
         default:
-            return `https://${net}.etherscan.io/${type}/${param}`;
+            return `https://etherscan.io/${type}/${param}`;
     }
 }
 
@@ -210,7 +210,6 @@ const config: HardhatUserConfig = {
         outDir: `types`,
     },
     dodoc: {
-        // Ensure docs path exists
         outputDir: process.env.DOC_GEN_LOCAL_PATH,
         runOnCompile: false,
         debugMode: false,
