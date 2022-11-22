@@ -178,9 +178,13 @@ This will automatically update [deployments.json](./deployments.json), which get
 npm run doc
 ```
 
+Sets up API docs from the [NatSpec](https://docs.soliditylang.org/en/latest/natspec-format.html) comments in your contract interfaces (ignoring implementations and libraries).
+
+If desired, this can be updated to included all contract comments, and the path can be updated to a different location (such as if you want a seperate `docs` repository for your project).
+
 &nbsp;
 
-## [Foundry & Hardhat Info](#foundry--hardhat-infofoundary--hardhat-info)
+## [Foundry & Hardhat Info](#foundry--hardhat-info)
 
 #### [Foundry](#foundry)
 
