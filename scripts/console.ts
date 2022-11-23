@@ -6,22 +6,22 @@ import * as path from "path";
 import { keyInSelect, keyInYNStrict, question } from "readline-sync";
 import { Counter } from "../types";
 import { deployCounter } from "./deploy";
-import { explorerUrl, UrlType } from "../hardhat.config";
+import { explorerUrl, GAS_MODE, UrlType } from "../hardhat.config";
+import { Deployment, DeploymentContract, Deployments, GasOptions } from "./types";
+import { FeeData } from "@ethersproject/providers";
 
-enum Usage {
-    DEPLOY = `deploy contracts`,
-    CALL = `call contract functions`,
-}
-
-async function main(signer?: SignerWithAddress): Promise<void> {
+async function main(signer?: SignerWithAddress, gasOpts?: GasOptions): Promise<void> {
     if (signer == undefined) {
         signer = await askForSigner();
+    }
+    if (GAS_MODE && gasOpts === undefined) {
+        gasOpts = await askForGasOptions();
     }
 
     switch (askForUsage()) {
         case Usage.DEPLOY: {
-            await trackDeployment(() => deployCounter(signer, 0), `Counter`);
-            void main(signer);
+            await trackDeployment(() => deployCounter(signer, gasOpts, 0), `Counter`);
+            void main(signer, gasOpts);
             break;
         }
         case Usage.CALL: {
@@ -32,14 +32,26 @@ async function main(signer?: SignerWithAddress): Promise<void> {
             let count: BigNumber;
             switch (askFor(`function call`)) {
                 case `incrementCount`:
-                    tx = await counter.incrementCount();
+                    tx = await counter.incrementCount({
+                        maxFeePerGas: gasOpts?.maxFeePerGas,
+                        maxPriorityFeePerGas: gasOpts?.maxPriorityFeePerGas,
+                        gasLimit: gasOpts?.gasLimit,
+                    });
                     break;
                 case `decrementCount`:
-                    tx = await counter.decrementCount();
+                    tx = await counter.decrementCount({
+                        maxFeePerGas: gasOpts?.maxFeePerGas,
+                        maxPriorityFeePerGas: gasOpts?.maxPriorityFeePerGas,
+                        gasLimit: gasOpts?.gasLimit,
+                    });
                     break;
                 case `setCount`:
                     count = BigNumber.from(askFor(`count`));
-                    tx = await counter.setCount(count);
+                    tx = await counter.setCount(count, {
+                        maxFeePerGas: gasOpts?.maxFeePerGas,
+                        maxPriorityFeePerGas: gasOpts?.maxPriorityFeePerGas,
+                        gasLimit: gasOpts?.gasLimit,
+                    });
                     break;
                 default:
                     count = await counter.getCount();
@@ -51,7 +63,7 @@ async function main(signer?: SignerWithAddress): Promise<void> {
                     `transaction: ${explorerUrl(network.config.chainId, UrlType.TX, tx.hash)}`,
                 );
             }
-            void main(signer);
+            void main(signer, gasOpts);
             return;
         }
     }
@@ -70,6 +82,62 @@ async function askForSigner(): Promise<SignerWithAddress> {
     const accountNumber = askForNumber(`the signer you wish to use (1-5)`);
     const deployer = signers[accountNumber - 1];
     return deployer;
+}
+
+const GIGA: number = 10 ** 9;
+
+async function askForGasOptions(): Promise<GasOptions | undefined> {
+    const blockFeeData = await ethers.provider.getFeeData();
+    const maxFeePerGas = askForMaxFeePerGas(blockFeeData);
+    const maxPriorityFeePerGas = askForMaxPriorityFeePerGas(blockFeeData);
+    const gasLimit = askForGasLimit();
+
+    return {
+        maxPriorityFeePerGas: maxPriorityFeePerGas,
+        maxFeePerGas: maxFeePerGas,
+        gasLimit: gasLimit,
+    };
+}
+
+function askForMaxFeePerGas(feeData: FeeData): BigNumber | undefined {
+    const defaultMaxFee = feeData.maxFeePerGas === null ? BigNumber.from(0) : feeData.maxFeePerGas;
+    const defaultMaxFeeStr = (defaultMaxFee.toNumber() / GIGA).toString();
+    for (;;) {
+        const gasFeeStr = askFor(`maxFeePerGas in GWei`, defaultMaxFeeStr);
+        const gasFee = parseFloat(gasFeeStr);
+        if (Number.isFinite(gasFee) && gasFee >= 0) {
+            const feeWei = (gasFee * GIGA).toFixed();
+            const feeBn = BigNumber.from(feeWei);
+            return feeBn.isZero() ? undefined : feeBn;
+        }
+        printInvalidInput(`maxFeePerGas`);
+    }
+}
+
+function askForMaxPriorityFeePerGas(feeData: FeeData): BigNumber | undefined {
+    const defaultPriorityFee =
+        feeData.maxPriorityFeePerGas === null ? BigNumber.from(0) : feeData.maxPriorityFeePerGas;
+    const defaultPriorityFeeStr = (defaultPriorityFee.toNumber() / GIGA).toString();
+    for (;;) {
+        const priorityFeeStr = askFor(`maxPriorityFeePerGas in GWei`, defaultPriorityFeeStr);
+        const priorityFee = parseFloat(priorityFeeStr);
+        if (Number.isFinite(priorityFee) && priorityFee >= 0) {
+            const feeWei = (priorityFee * GIGA).toFixed();
+            const feeBn = BigNumber.from(feeWei);
+            return feeBn.isZero() ? undefined : feeBn;
+        }
+        printInvalidInput(`maxPriorityFeePerGas`);
+    }
+}
+
+function askForGasLimit(): BigNumber | undefined {
+    const limitBn = BigNumber.from(askForNumber(`gasLimit in Wei (0 for estimate)`, `0`));
+    return limitBn.isZero() ? undefined : limitBn;
+}
+
+enum Usage {
+    DEPLOY = `deploy contracts`,
+    CALL = `call contract functions`,
 }
 
 function askForUsage(): string {
@@ -96,20 +164,6 @@ const JSON_NUM_SPACES = 4;
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires, node/no-unpublished-require
 let deployments: Deployments = require(`../deployments.json`);
-
-type DeploymentContract = {
-    name: string;
-    address: string;
-};
-
-type Deployment = {
-    network: string;
-    contracts: Array<DeploymentContract>;
-};
-
-type Deployments = {
-    deployments: Array<Deployment>;
-};
 
 async function trackDeployment<T extends Contract>(
     fn: () => Promise<T>,

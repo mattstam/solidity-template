@@ -3,8 +3,7 @@ import { BaseContract, ContractReceipt, ContractTransaction, utils } from "ether
 import { Interface } from "ethers/lib/utils";
 
 import { TransactionReceipt } from "@ethersproject/providers";
-
-import { REPORT_GAS } from "../hardhat.config";
+import { GAS_MODE } from "../hardhat.config";
 
 // --- Transaction & contract deployment helpers ---
 
@@ -22,7 +21,7 @@ export async function submitTxWait(
 ): Promise<ContractReceipt> {
     void expect(tx).to.not.be.reverted;
     const receipt = await (await tx).wait();
-    if (REPORT_GAS) {
+    if (GAS_MODE) {
         console.log(`Gas used for ` + txName + `: ` + receipt.gasUsed.toString());
     }
     expect(receipt.status).to.eq(1);

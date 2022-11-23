@@ -19,8 +19,10 @@ import * as toml from "toml";
 
 dotenv.config({ path: resolve(__dirname, `./.env`) });
 
-export const REPORT_GAS: boolean = process.env.REPORT_GAS == `TRUE` ? true : false;
+// Enable increased console log verbosity
 export const VERBOSE: boolean = process.env.VERBOSE == `TRUE` ? true : false;
+// Enable EIP-1559 gas configuration for transactions and gas reporting
+export const GAS_MODE: boolean = process.env.GAS_MODE == `TRUE` ? true : false;
 
 const SOLC_DEFAULT: string = `0.8.17`;
 
@@ -185,7 +187,7 @@ const config: HardhatUserConfig = {
     },
     gasReporter: {
         currency: `USD`,
-        enabled: REPORT_GAS,
+        enabled: GAS_MODE,
         coinmarketcap: process.env.CMC_API_KEY,
         excludeContracts: [`./contracts/test`],
         src: `./contracts`,

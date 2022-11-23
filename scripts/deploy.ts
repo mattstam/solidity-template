@@ -5,6 +5,7 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { VERBOSE } from "../hardhat.config";
 import { Counter, Counter__factory } from "../types";
 import { deployWait } from "./utils";
+import { GasOptions } from "./types";
 
 // --- Helper functions for deploying contracts ---
 
@@ -14,6 +15,7 @@ import { deployWait } from "./utils";
 // deployCounter deploys the Counter contract with an initial count value.
 export async function deployCounter(
     deployer?: SignerWithAddress,
+    gasOpts?: GasOptions,
     initCount?: number,
 ): Promise<Counter> {
     if (deployer == undefined) {
@@ -24,7 +26,13 @@ export async function deployCounter(
     }
 
     const counter: Counter__factory = await hre.ethers.getContractFactory(`Counter`, deployer);
-    const counterContract = await deployWait(counter.deploy(initCount));
+    const counterContract = await deployWait(
+        counter.deploy(initCount, {
+            maxFeePerGas: gasOpts?.maxFeePerGas,
+            maxPriorityFeePerGas: gasOpts?.maxPriorityFeePerGas,
+            gasLimit: gasOpts?.gasLimit,
+        }),
+    );
 
     if (VERBOSE) console.log(`Counter: ${counterContract.address}`);
     hre.tracer.nameTags[counterContract.address] = `Counter`;
