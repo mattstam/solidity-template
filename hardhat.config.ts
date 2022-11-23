@@ -21,12 +21,12 @@ dotenv.config({ path: resolve(__dirname, `./.env`) });
 
 // Enable increased console log verbosity
 export const VERBOSE: boolean = process.env.VERBOSE == `TRUE` ? true : false;
+
 // Enable EIP-1559 gas configuration for transactions and gas reporting
 export const GAS_MODE: boolean = process.env.GAS_MODE == `TRUE` ? true : false;
 
-const SOLC_DEFAULT: string = `0.8.17`;
-
-const chainIds = {
+// List of supported networks
+export const chainIds = {
     arbitrum: 42161,
     "arbitrum-goerli": 421613,
     avalanche: 43114,
@@ -118,6 +118,8 @@ export function explorerUrl(chainId: number | undefined, type: UrlType, param: s
     }
 }
 
+const SOLC_DEFAULT: string = `0.8.17`;
+
 // Try to use the Foundry config as a source of truth
 let foundry;
 try {
@@ -139,7 +141,7 @@ subtask(TASK_COMPILE_SOLIDITY_GET_SOURCE_PATHS).setAction(async (_, __, runSuper
     return paths.filter((p: string) => !p.endsWith(`.t.sol`));
 });
 
-// https://hardhat.org/config/ to learn more
+// For full option list see: https://hardhat.org/config/
 const config: HardhatUserConfig = {
     paths: {
         artifacts: `./artifacts`,

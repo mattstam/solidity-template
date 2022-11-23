@@ -6,7 +6,7 @@ import * as path from "path";
 import { keyInSelect, keyInYNStrict, question } from "readline-sync";
 import { Counter } from "../types";
 import { deployCounter } from "./deploy";
-import { explorerUrl, GAS_MODE, UrlType } from "../hardhat.config";
+import { chainIds, explorerUrl, GAS_MODE, UrlType } from "../hardhat.config";
 import { Deployment, DeploymentContract, Deployments, GasOptions } from "./types";
 import { FeeData } from "@ethersproject/providers";
 
@@ -195,7 +195,12 @@ async function trackDeployment<T extends Contract>(
                 `Update 'deployments.json' with new ${name} address ${contract.address}?`,
             );
             if (update) {
-                deployments = updateDeploymentsJson(deployments, name, contract.address, net.name);
+                deployments = updateDeploymentsJson(
+                    deployments,
+                    name,
+                    contract.address,
+                    net.chainId,
+                );
                 fs.writeFileSync(
                     path.join(__dirname, `..`, `deployments.json`),
                     JSON.stringify(deployments, null, JSON_NUM_SPACES),
@@ -216,9 +221,15 @@ function updateDeploymentsJson(
     deployments: Deployments,
     contractName: string,
     contractAddr: string,
-    networkName: string,
+    chainId: number,
 ): Deployments {
     const networks = deployments.deployments;
+    const networkName = (Object.keys(chainIds) as (keyof typeof chainIds)[]).find(key => {
+        return chainIds[key] === chainId;
+    });
+    if (networkName === undefined) {
+        throw `Unsupported chainId ${chainId}`;
+    }
     for (let i = 0; i < networks.length; i++) {
         if (networks[i].network === networkName) {
             for (let j = 0; j < networks[i].contracts.length; j++) {
