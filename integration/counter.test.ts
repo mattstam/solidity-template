@@ -19,7 +19,7 @@ describe("Counter", () => {
 
     beforeEach(async () => {
         const signers: SignerWithAddress[] = await ethers.getSigners();
-        counter = await deployCounter(signers[0], initCount);
+        counter = await deployCounter(signers[0], null, initCount);
 
         const currCount = await counter.getCount();
         expect(currCount).to.eq(initCount);
