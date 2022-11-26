@@ -57,5 +57,6 @@ module.exports = {
                 checksVoidReturn: false,
             },
         ],
+        "@typescript-eslint/no-non-null-assertion": `off`,
     },
 };

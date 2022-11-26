@@ -1,9 +1,7 @@
-/* eslint-disable */
 import chai from "chai";
 import { solidity } from "ethereum-waffle";
+import { Signer, Wallet } from "ethers";
 import { ethers } from "hardhat";
-
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 
 import { deployCounter } from "../scripts/deploy";
 import { submitTxWait } from "../scripts/utils";
@@ -18,8 +16,8 @@ describe("Counter", () => {
     let counter: Counter;
 
     beforeEach(async () => {
-        const signers: SignerWithAddress[] = await ethers.getSigners();
-        counter = await deployCounter(signers[0], null, initCount);
+        const signers: Signer[] = await ethers.getSigners();
+        counter = await deployCounter(signers[0] as Wallet, undefined, initCount);
 
         const currCount = await counter.getCount();
         expect(currCount).to.eq(initCount);

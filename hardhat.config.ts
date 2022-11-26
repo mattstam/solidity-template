@@ -1,13 +1,13 @@
 import "@nomiclabs/hardhat-ethers";
 import "@nomiclabs/hardhat-etherscan";
-import "hardhat-gas-reporter";
-import "solidity-coverage";
-import "@nomiclabs/hardhat-waffle";
 import "@nomiclabs/hardhat-solhint";
+import "@nomiclabs/hardhat-waffle";
+import "@primitivefi/hardhat-dodoc";
 import "@typechain/hardhat";
 import "hardhat-contract-sizer";
-import "@primitivefi/hardhat-dodoc";
+import "hardhat-gas-reporter";
 import "hardhat-tracer";
+import "solidity-coverage";
 
 import * as dotenv from "dotenv";
 import { readFileSync } from "fs";

@@ -1,5 +1,4 @@
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { BigNumber, Contract, ContractTransaction, utils } from "ethers";
+import { BigNumber, Contract, ContractTransaction, utils, Wallet } from "ethers";
 import * as fs from "fs";
 import { ethers, network } from "hardhat";
 import * as path from "path";
@@ -9,10 +8,11 @@ import { deployCounter } from "./deploy";
 import { chainIds, explorerUrl, GAS_MODE, UrlType } from "../hardhat.config";
 import { Deployment, DeploymentContract, Deployments, GasOptions } from "./types";
 import { FeeData } from "@ethersproject/providers";
+import { HardhatNetworkHDAccountsConfig } from "hardhat/types";
 
-async function main(signer?: SignerWithAddress, gasOpts?: GasOptions): Promise<void> {
-    if (signer == undefined) {
-        signer = await askForSigner();
+async function main(wallet?: Wallet, gasOpts?: GasOptions): Promise<void> {
+    if (wallet === undefined) {
+        wallet = await askForWallet();
     }
     if (GAS_MODE && gasOpts === undefined) {
         gasOpts = await askForGasOptions();
@@ -20,8 +20,8 @@ async function main(signer?: SignerWithAddress, gasOpts?: GasOptions): Promise<v
 
     switch (askForUsage()) {
         case Usage.DEPLOY: {
-            await trackDeployment(() => deployCounter(signer, gasOpts, 0), `Counter`);
-            void main(signer, gasOpts);
+            await trackDeployment(() => deployCounter(wallet!, gasOpts, 0), `Counter`);
+            void main(wallet, gasOpts);
             break;
         }
         case Usage.CALL: {
@@ -63,25 +63,27 @@ async function main(signer?: SignerWithAddress, gasOpts?: GasOptions): Promise<v
                     `transaction: ${explorerUrl(network.config.chainId, UrlType.TX, tx.hash)}`,
                 );
             }
-            void main(signer, gasOpts);
+            void main(wallet, gasOpts);
             return;
         }
     }
 }
 
-async function askForSigner(): Promise<SignerWithAddress> {
+async function askForWallet(): Promise<Wallet> {
+    console.log(`Your available BIP-44 derivation path (m/44'/60'/0'/0) account wallets to use:`);
     const signers = await ethers.getSigners();
-
-    // Listing all 20 is a bit much, so we'll just list the first 5 instead of 'signers.length'.
-    // For example of configuring this as a env var, see Git Consensus:
-    // https://github.com/git-consensus/contracts/blob/de9e68e48b016b29c535d38eb99e464764228ff4/.env.example#L3
-    console.log(`Your available BIP-44 derivation path (m/44'/60'/0'/0) account signers to use:`);
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= signers.length; i++) {
         console.log(i, await signers[i - 1].getAddress());
     }
-    const accountNumber = askForNumber(`the signer you wish to use (1-5)`);
-    const deployer = signers[accountNumber - 1];
-    return deployer;
+
+    const accountNumber = askForNumber(`the wallet you wish to use (1-${signers.length})`);
+    const accounts = network.config.accounts as HardhatNetworkHDAccountsConfig;
+    const wallet = ethers.Wallet.fromMnemonic(
+        accounts.mnemonic,
+        accounts.path + `/${accountNumber - 1}`,
+    );
+
+    return wallet.connect(ethers.provider);
 }
 
 const GIGA: number = 10 ** 9;
