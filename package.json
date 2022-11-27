@@ -35,7 +35,7 @@
     ],
     "scripts": {
         "build": "npx hardhat compile --quiet",
-        "clean": "forge clean; npx hardhat clean; rm -rf coverage.json artifacts/ build/ cache/ coverage/ example/ node_modules/ types/",
+        "clean": "forge clean; npx hardhat clean; rm -rf coverage.json artifacts/ artifacts-zk/ build/ cache/ cache-zk/ coverage/ example/ node_modules/ types/",
         "coverage": "npx hardhat coverage --solcoverjs ./solcover.js",
         "deploy": "npx hardhat run scripts/console.ts",
         "doc": "npx hardhat dodoc",
@@ -50,6 +50,8 @@
     },
     "devDependencies": {
         "@float-capital/ds-test": "^0.0.1",
+        "@matterlabs/hardhat-zksync-deploy": "^0.5.2",
+        "@matterlabs/hardhat-zksync-solc": "^0.3.11-beta.1",
         "@nomiclabs/hardhat-ethers": "^2.1.1",
         "@nomiclabs/hardhat-etherscan": "^3.1.0",
         "@nomiclabs/hardhat-solhint": "^2.0.1",

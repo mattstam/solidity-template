@@ -3,8 +3,10 @@
 
 # typical Hardhat, Foundry, Solcover, and Echidna temp paths
 artifacts
+artifacts-zk
 build
 cache
+cache-zk
 corpus
 coverage
 node_modules

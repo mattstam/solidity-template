@@ -1,8 +1,10 @@
 **/.git/
 **/.yarn/
 **/artifacts
+**/artifacts-zk
 **/build
 **/cache
+**/cache-zk
 **/corpus
 **/coverage
 **/contracts/test

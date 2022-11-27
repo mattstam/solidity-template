@@ -5,8 +5,10 @@
     "include": ["scripts/**/*.ts", "types/**/*.ts", ".eslintrc.js"],
     "exclude": [
         "./artifacts",
+        "./artifacts-zk",
         "./build",
         "./cache",
+        "./cache-zk",
         "./contracts",
         "./coverage",
         "./integration",
