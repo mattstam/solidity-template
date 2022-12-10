@@ -32,7 +32,14 @@ Go to the top right of [this repository](https://github.com/mattstam/solidity-te
 
 [![Use this template](./media/template.png)](https://github.com/mattstam/solidity-template/generate)
 
+Alternatively, you can set this template up through Foundry:
+
+```sh
+forge init --template https://github.com/mattstam/solidity-template <project-name>
+```
+
 This will create a copy of this repository for your project. A sample contract already exists, [Counter.sol](./contracts/Counter.sol), with its interface [ICounter.sol](./contracts/interfaces/ICounter.sol), Unit Test file [Counter.t.sol](./contracts/test/Counter.t.sol), and Integration Test file [counter.test.ts](./integration/counter.test.ts).
+
 
 Use this as the foundation for how to write and test your contracts. Replace these with the contracts you want to build.
 
