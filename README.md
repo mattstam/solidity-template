@@ -1,11 +1,10 @@
 # [Solidity Template](#solidity-template)
 
-<!-- If you want badge for Github Actions & NPM version, uncomment these! -->
-<!-- [![Unit Tests](https://github.com/mattstam/solidity-template/actions/workflows/unit-test.yaml/badge.svg)](https://github.com/mattstam/solidity-template/actions/workflows/unit-test.yaml)
+[![Unit Tests](https://github.com/mattstam/solidity-template/actions/workflows/unit-test.yaml/badge.svg)](https://github.com/mattstam/solidity-template/actions/workflows/unit-test.yaml)
 [![Integration Tests](https://github.com/mattstam/solidity-template/actions/workflows/integration-test.yaml/badge.svg)](https://github.com/mattstam/solidity-template/actions/workflows/integration-test.yaml)
 [![Slither Static Analysis](https://github.com/mattstam/solidity-template/actions/workflows/slither.yaml/badge.svg)](https://github.com/mattstam/solidity-template/actions/workflows/slither.yaml)
 [![Lint](https://github.com/mattstam/solidity-template/actions/workflows/lint.yaml/badge.svg)](https://github.com/mattstam/solidity-template/actions/workflows/lint.yaml)
-[![NPM Version](https://img.shields.io/npm/v/@mattstam/solidity-template/latest.svg)](https://www.npmjs.com/package/@mattstam/solidity-template/v/latest) -->
+[![NPM Version](https://img.shields.io/npm/v/@mattstam/solidity-template/latest.svg)](https://www.npmjs.com/package/@mattstam/solidity-template/v/latest)
 
 This is a modern Solidity template for Ethereum smart contracts. It combines two extremely powerful frameworks:
 
