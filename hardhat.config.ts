@@ -95,6 +95,7 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
         chainId: chainIds[chain],
         url: jsonRpcUrl,
         zksync: ZK_EVM,
+        ethNetwork: ZK_EVM ? `goerli` : undefined,
     };
 }
 
@@ -258,11 +259,6 @@ const config: HardhatUserConfig = {
                 tag: `v1.2.0`,
             },
         },
-    },
-    // TODO: Add mainnet when publically available
-    zkSyncDeploy: {
-        zkSyncNetwork: `https://zksync2-testnet.zksync.dev`,
-        ethNetwork: `goerli`,
     },
 };
 
