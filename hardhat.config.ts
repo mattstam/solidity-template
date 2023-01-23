@@ -95,7 +95,6 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
         chainId: chainIds[chain],
         url: jsonRpcUrl,
         zksync: ZK_EVM,
-        ethNetwork: ZK_EVM ? `goerli` : undefined,
     };
 }
 
@@ -251,12 +250,12 @@ const config: HardhatUserConfig = {
         disambiguatePaths: false,
     },
     zksolc: {
-        version: `1.2.0`,
+        version: `1.2.1`,
         compilerSource: `binary`,
         settings: {
             experimental: {
                 dockerImage: `matterlabs/zksolc`,
-                tag: `v1.2.0`,
+                tag: `v1.2.1`,
             },
         },
     },
