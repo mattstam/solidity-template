@@ -85,7 +85,7 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
             jsonRpcUrl = `https://zksync2-mainnet.zksync.io`;
             break;
         default:
-            jsonRpcUrl = `https://${chain}.infura.io/v3/${process.env.INFURA_API_KEY}`;
+            jsonRpcUrl = `https://eth-${chain}.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`;
     }
     return {
         accounts: {
