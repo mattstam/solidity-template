@@ -75,7 +75,7 @@
         "eslint-plugin-prettier": "^4.2.1",
         "ethereum-waffle": "^3.4.4",
         "ethers": "^5.7.2",
-        "hardhat": "^2.12.5",
+        "hardhat": "^2.13.0",
         "hardhat-contract-sizer": "^2.6.1",
         "hardhat-gas-reporter": "^1.0.9",
         "hardhat-tracer": "^1.2.1",
